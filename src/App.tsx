@@ -1,6 +1,6 @@
 import './App.css'
 import { useEffect, useState } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
 import axios from 'axios';
 import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -33,25 +33,32 @@ const App = () => {
     getData();
   }, [])
 
-  const printData = () => {
-    console.log(`quakedata: ${JSON.stringify(quakedata[0], null, 4)}`)
+  interface Earthquake {
+    id: string,
+    mag: number,
+    place: string,
+    time: string,
+    url: string,
+    lat: number,
+    long: number,
+    depth: number,
   }
 
   const renderMarkers = () => {
-    return quakedata.map(q => {
+    return quakedata.map((q:Earthquake) => {
       return(
-        <Marker key={q.id} position={[q.lat,q.long]}>
+        <CircleMarker key={q.id} center={[q.lat,q.long]} radius={q.mag * 2.5}>
         <Popup>
           {`Magnitude: ${q.mag}`}<br /> {q.place}<br />{q.time}
         </Popup>
-      </Marker>
+      </CircleMarker>
       )
     })
   }
 
   return (
     <div id="app">
-      <h1 onClick={printData}>USGS Earthquakes (last 24 hours)</h1>
+      <h1>USGS Earthquakes (last 24 hours)</h1>
       {quakedata.length >= 1 && <MapContainer
         center={[29, -20]}
         zoom={2}
