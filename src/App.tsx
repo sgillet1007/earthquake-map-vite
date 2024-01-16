@@ -68,6 +68,7 @@ const App = () => {
         center={[29, -20]}
         zoom={2}
         scrollWheelZoom={true}
+        minZoom={2}
         >
         <TileLayer
           attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
