@@ -1,6 +1,7 @@
 import './App.css'
 import { useEffect, useState } from 'react'
 import MarkerClusterGroup from 'react-leaflet-cluster'
+import Leaflet from 'leaflet'
 import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -61,6 +62,10 @@ const App = () => {
     })
   }
 
+  const sw_bound = Leaflet.latLng(-90,-200);
+  const ne_bound = Leaflet.latLng(90,200);
+  const bounds = Leaflet.latLngBounds(sw_bound, ne_bound)
+
   return (
     <div id="app">
       <Header />
@@ -69,6 +74,8 @@ const App = () => {
         zoom={2}
         scrollWheelZoom={true}
         minZoom={2}
+        maxBoundsViscosity={1.0}
+        maxBounds={bounds}
         >
         <TileLayer
           attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
