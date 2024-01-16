@@ -1,6 +1,47 @@
 html,
 body {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:sans-serif;
+}
+
+h2, h3 {
+  margin: 0;
+}
+
+#header{
+  background-color: black;
+  color: white;
+  height: 95px;
+  width: 100%;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+#header img{
+  height: 70px;
+  margin:0.5em;
+}
+
+#header #header-details{
+  height: 70px;
+  margin:0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+  justify-content:space-around;
+}
+
+h1{
+  font-size: 1.5em;
+}
+
+h1, #timeframe{
+  margin: 0 1em 0 1em;
 }
 
 #app {
@@ -10,4 +51,9 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.leaflet-container {
+  height: 90%;
+  min-width: 100%;
 }

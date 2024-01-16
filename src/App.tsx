@@ -7,9 +7,13 @@ import dayjs from 'dayjs';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 
-const App = () => {
+import Header from "./components/Header"
 
+const App = () => {
+  
   const [quakedata, setQuakedata] = useState([])
+  
+  const dataLoaded = quakedata.length >= 1
 
   useEffect(()=>{
     async function getData() {
@@ -50,7 +54,7 @@ const App = () => {
       return(
         <CircleMarker key={q.id} center={[q.lat,q.long]} radius={q.mag * 2.7}>
         <Popup>
-          {`Magnitude: ${q.mag}`}<br /> {q.place}<br />{q.time}
+          <h2>{`Magnitude: ${q.mag}`}</h2><br /><h3>{q.place}<br />{q.time}</h3>
         </Popup>
       </CircleMarker>
       )
@@ -59,12 +63,11 @@ const App = () => {
 
   return (
     <div id="app">
-      <h1>USGS Earthquakes (last 24 hours)</h1>
-      {quakedata.length >= 1 && <MapContainer
+      <Header />
+      {dataLoaded && <MapContainer
         center={[29, -20]}
         zoom={2}
         scrollWheelZoom={true}
-        style={{ height: "90%", width: "90%" }}
         >
         <TileLayer
           attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
