@@ -1,5 +1,6 @@
 import './App.css'
 import { useEffect, useState } from 'react'
+import MarkerClusterGroup from 'react-leaflet-cluster'
 import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -13,7 +14,7 @@ const App = () => {
   useEffect(()=>{
     async function getData() {
       try {
-        const { data } = await axios.get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_day.geojson')       
+        const { data } = await axios.get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson')       
         const transformed_data = data?.features?.map(
           (f: { properties: { mag: number; place: any; time: any; url: any; }; geometry: { coordinates: number[]; }; id: any; }) => ({
             mag: f.properties.mag.toFixed(1),
@@ -47,7 +48,7 @@ const App = () => {
   const renderMarkers = () => {
     return quakedata.map((q:Earthquake) => {
       return(
-        <CircleMarker key={q.id} center={[q.lat,q.long]} radius={q.mag * 2.5}>
+        <CircleMarker key={q.id} center={[q.lat,q.long]} radius={q.mag * 2.7}>
         <Popup>
           {`Magnitude: ${q.mag}`}<br /> {q.place}<br />{q.time}
         </Popup>
@@ -69,7 +70,11 @@ const App = () => {
           attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
+        <MarkerClusterGroup
+        chunkedLoading
+      >
         {renderMarkers()}
+      </MarkerClusterGroup>
       </MapContainer>}
     </div>
   );
